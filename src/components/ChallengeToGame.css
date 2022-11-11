@@ -1,0 +1,25 @@
+.ChallengeToGame {
+  max-width: 500px;
+}
+
+.ChallengeToGame > h1 {
+  margin-bottom: 40px;
+}
+
+.ChallengeToGame > div {
+  background-color: #eee;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.game-link {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 10px 55px 10px 15px;
+  border-radius: 5px;  
+}
+
+.copy-link {
+  position: relative;
+  top: 12px;
+}

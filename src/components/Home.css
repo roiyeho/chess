@@ -1,0 +1,46 @@
+.Home {
+  background-image: url('chess-background.jpg');
+  background-size: cover;
+  padding-bottom: 20px;
+}
+
+.Home > header {
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.Home .username {
+  margin-right: 10px;
+  text-align: right;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px;
+}
+
+.time-control {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 50%;
+}
+
+.card {
+  flex: 1 0 40%;
+  text-align: center;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.player-type {
+  margin-left: 15px;  
+  display: flex;  
+  flex-direction: column;
+  align-self: center;
+}
+
+.player-type button {  
+  margin-bottom: 10px;
+  width: 100%;
+}

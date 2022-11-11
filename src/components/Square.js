@@ -12,7 +12,10 @@ function Square(props) {
   }
 
   return (
-    <div className="square" onClick={props.onClick}>
+    <div 
+      className={`square ${(props.row + props.column) % 2 === 0 ? 'even' : 'odd'} `+ 
+        `${props.highlight ? 'highlight' : ''}`}     
+      onClick={props.onClick}>
       {imagePath ? <img src={imagePath} /> : null}
     </div>
   );  

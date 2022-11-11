@@ -2,6 +2,7 @@ import { Chess } from 'chess.js';
 import { useState } from 'react';
 import Square from './Square';
 import './Board.css';
+import Player from '../model/players';
 
 const BOARD_SIZE = 8
 
@@ -9,22 +10,48 @@ function Board(props) {
   /** @type {Chess} */
   const chess = props.chess;    
   const [board, setBoard] = useState(chess.board());
+  const [currentPlayer, setCurrentPlayer] = useState(Player.White);
   const [fromSquare, setFromSquare] = useState(null);
+  const [toSquare, setToSquare] = useState(null);
 
-  function posToSAN(row, column) {
-    const columnLetter = String.fromCharCode('a'.charCodeAt(0) + column);
-    return `${columnLetter}${BOARD_SIZE - row}`;
-  }
-  
-  function handleClick(row, column) {
-    if (fromSquare === null) {      
-      setFromSquare(posToSAN(row, column));
-    } else {
-      const toSquare = posToSAN(row, column);
-      chess.move({from: fromSquare, to: toSquare});
-      setBoard(chess.board());
-      setFromSquare(null);
+  function handleClick(row, column) {    
+    if (fromSquare === null) {
+      // Check that the square has a piece in the current player's color
+      if (board[row][column] && board[row][column].color === currentPlayer) {
+        setFromSquare({row, column});
+        setToSquare(null);      
+      }      
+    } else {      
+      if (row !== fromSquare.row || column !== fromSquare.column) {
+        const toSquare = {row, column};
+        // Check if it is a legal move
+        if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {
+          setBoard(chess.board());
+          setToSquare(toSquare);
+          switchPlayers();
+          setFromSquare(null);
+        } else {
+          if (board[row][column] && board[row][column].color === currentPlayer) {
+            setFromSquare({row, column});
+          }
+        }
+      } else {
+        setFromSquare(null);
+      }                 
     }  
+  }
+
+  function squareToSAN(square) {
+    const columnLetter = String.fromCharCode('a'.charCodeAt(0) + square.column);
+    return `${columnLetter}${BOARD_SIZE - square.row}`;
+  }
+
+  function switchPlayers() {
+    if (currentPlayer === Player.White) {
+      setCurrentPlayer(Player.Black);
+    } else {
+      setCurrentPlayer(Player.White);
+    }
   }
   
   const rows = [];
@@ -33,8 +60,12 @@ function Board(props) {
     for (let j = 0; j < BOARD_SIZE; j++) {
       const square = (
         <Square
+          row={i}
+          column={j}
           pieceType={board[i][j] ? board[i][j].type : null}
           color={board[i][j] ? board[i][j].color : null}
+          highlight={(fromSquare && i === fromSquare.row && j === fromSquare.column) ||
+            (toSquare && i === toSquare.row && j === toSquare.column)}
           key={`(${i},${j})`}
           onClick={() => handleClick(i, j)}
         />

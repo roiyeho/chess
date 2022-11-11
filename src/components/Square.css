@@ -1,10 +1,23 @@
 .square {
-  border: 1px solid #999;  
+  /*background-color: rgb(229, 243, 248);*/
+  
   width: 50px;
   height: 50px;
   text-align: center;
 }
 
+.square.even {
+  background-color: #dee3e6;  
+}
+
+.square.odd {
+  background-color: #788a94;
+}
+
+.square.highlight {
+  background-color: rgba(155,199,0,0.41)
+}
+
 .square img {
-  height: 50px;
+  width: 50px;
 }

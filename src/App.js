@@ -1,15 +1,17 @@
 import './App.css';
 import { Chess } from 'chess.js';
 import Board from './components/Board';
-import playRandomGame from './logic/ChessLogic';
+import ChallengeToGame from './components/ChallengeToGame';
+import Home from './components/Home';
 
 const chess = new Chess();
 
 function App() {  
   return (
-    <Board
-      chess={chess}
-    />
+    <div className="App">
+      {/* <Home />     */}
+      <Board chess={chess} />   
+    </div>
   );
 }
 
