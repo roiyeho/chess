@@ -1,10 +1,31 @@
+import './Home.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import './Home.css';
+import { Link } from 'react-router-dom';
 import { useUsername } from '../hooks/useUsername';
+import TimeControls from '../model/timecontrols';
 
-function Home() {
+function Home({ timeControl, setTimeControl }) {
   const { username } = useUsername();
+  
+  function handleCardClick(index) {
+    setTimeControl(index); 
+  }
+
+  const timeControlCards = TimeControls.map(([minutes, gameType], index) => (
+    <Card 
+      bg={index === timeControl ? 'info' : ''}
+      className="card"      
+      key={index}
+      onClick={() => handleCardClick(index)}>      
+      <Card.Body>
+        <Card.Title>{gameType}</Card.Title>
+        <Card.Text>
+          {minutes > 0 ? `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}` : ''}          
+        </Card.Text>
+      </Card.Body>
+    </Card>
+  ));
 
   return (
     <div className="Home">
@@ -17,57 +38,12 @@ function Home() {
       
       <div className="wrapper">      
         <div className="time-control">          
-            <Card className="card">      
-              <Card.Body>
-                <Card.Title>Bullet</Card.Title>
-                <Card.Text>
-                  1 minute
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            <Card className="card">      
-              <Card.Body>
-                <Card.Title>Blitz</Card.Title>
-                <Card.Text>
-                  3 minutes
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            <Card className="card">      
-              <Card.Body>
-                <Card.Title>Blitz</Card.Title>
-                <Card.Text>
-                  5 minutes
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            <Card className="card">      
-              <Card.Body>
-                <Card.Title>Rapid</Card.Title>
-                <Card.Text>
-                  10 minutes
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            <Card className="card">      
-              <Card.Body>
-                <Card.Title>Classical</Card.Title>
-                <Card.Text>
-                  30 minutes
-                </Card.Text>
-              </Card.Body>
-            </Card>
-            <Card className="card">      
-              <Card.Body>
-                <Card.Title>No time limit</Card.Title>
-                <Card.Text>
-                  &nbsp;
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            {timeControlCards}
         </div>
-        <div className="player-type">          
-          <Button variant="primary">Play with a friend</Button>
+        <div className="player-type">
+          <Link to='/game'>
+            <Button variant="primary">Play with a friend</Button>
+          </Link>          
           <Button variant="primary">Play with the computer</Button>
           <Button variant="primary">Play with a friend online</Button>
         </div>

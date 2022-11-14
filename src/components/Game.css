@@ -1,0 +1,7 @@
+.Game {
+  display: flex;
+}
+
+.Game > div {
+  margin-right: 20px;
+}

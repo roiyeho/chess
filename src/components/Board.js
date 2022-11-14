@@ -6,7 +6,7 @@ import Player from '../model/players';
 
 const BOARD_SIZE = 8
 
-function Board(props) {
+function Board() {
   /** @type {Chess} */
   const chess = new Chess();
   const [board, setBoard] = useState(chess.board());
