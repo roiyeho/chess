@@ -1,16 +1,29 @@
 import './App.css';
-import { Chess } from 'chess.js';
-import Board from './components/Board';
-import ChallengeToGame from './components/ChallengeToGame';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useUsername } from './hooks/useUsername';
 import Home from './components/Home';
+import Login from './components/Login';
 
-const chess = new Chess();
+function App() {
+  const { username, setUsername } = useUsername();
 
-function App() {  
+  if (!username) {
+    return (
+      <div className="App">
+        <Login setUsername={setUsername} />
+      </div>
+    );
+  }
+  
   return (
     <div className="App">
+      <Router>        
+        <Routes>        
+          <Route path="/" element={<Home />} />          
+        </Routes>      
+      </Router>    
       {/* <Home />     */}
-      <Board chess={chess} />   
+      {/* <Board chess={chess} />    */}
     </div>
   );
 }

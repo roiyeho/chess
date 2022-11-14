@@ -1,0 +1,27 @@
+.Login {
+  background-image: url('chess-background.jpg');
+  background-size: cover;  
+  height: 80vh;
+}
+
+.Login > h1 {
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.login-form div {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.login-form label {
+  margin-right: 10px;
+}
+
+.login-form input[type="text"] {
+  width: 250px;
+}
+
+.login-form button {
+  padding: 5px 30px;
+}

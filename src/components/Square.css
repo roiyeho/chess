@@ -15,7 +15,8 @@
 }
 
 .square.highlight {
-  background-color: rgba(155,199,0,0.41)
+  /*background-color: rgba(155,199,0,0.41)*/
+  background-color: rgb(252, 252, 192);
 }
 
 .square img {

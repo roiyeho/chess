@@ -8,7 +8,7 @@ const BOARD_SIZE = 8
 
 function Board(props) {
   /** @type {Chess} */
-  const chess = props.chess;    
+  const chess = new Chess();
   const [board, setBoard] = useState(chess.board());
   const [currentPlayer, setCurrentPlayer] = useState(Player.White);
   const [fromSquare, setFromSquare] = useState(null);
@@ -60,13 +60,13 @@ function Board(props) {
     for (let j = 0; j < BOARD_SIZE; j++) {
       const square = (
         <Square
+          key={`(${i},${j})`}
           row={i}
           column={j}
           pieceType={board[i][j] ? board[i][j].type : null}
           color={board[i][j] ? board[i][j].color : null}
           highlight={(fromSquare && i === fromSquare.row && j === fromSquare.column) ||
-            (toSquare && i === toSquare.row && j === toSquare.column)}
-          key={`(${i},${j})`}
+            (toSquare && i === toSquare.row && j === toSquare.column)}          
           onClick={() => handleClick(i, j)}
         />
       )

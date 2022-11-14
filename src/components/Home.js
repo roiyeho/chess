@@ -1,13 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-//import Button from '@mui/material/Button';
 import './Home.css';
+import { useUsername } from '../hooks/useUsername';
 
 function Home() {
+  const { username } = useUsername();
+
   return (
     <div className="Home">
       <header>
-        <div className="username">Welcome roiyeho</div>
+        <div className="username">Welcome {username}</div>
         <h1>
           Chess with Friends
         </h1>
