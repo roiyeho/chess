@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useUsername } from '../hooks/useUsername';
 import TimeControls from '../model/timecontrols';
 
-function Home({ timeControl, setTimeControl }) {
+function Home({timeControl, setTimeControl}) {
   const { username } = useUsername();
   
   function handleCardClick(index) {

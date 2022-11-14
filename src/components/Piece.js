@@ -20,14 +20,9 @@ import React from "react";
 
 class Piece extends React.Component {
   constructor(props) {
-    super(props);
-    console.log(this.props.row, this.props.column);
+    super(props);    
     this.state = {row: this.props.row, column: this.props.column};
-  }
-
-  componentWillUnmount() {
-    console.log('unmount');
-  }
+  }  
 
   render() {
     const imagePath = `images/${this.props.color}${this.props.pieceType.toUpperCase()}.png`;

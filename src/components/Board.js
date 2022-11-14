@@ -6,31 +6,32 @@ import Player from '../model/players';
 
 const BOARD_SIZE = 8
 
-function Board() {
-  /** @type {Chess} */
-  const chess = new Chess();
+function Board({currentPlayer, setCurrentPlayer}) {
+  /** @type {Chess} */ 
+  const [chess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
-  const [currentPlayer, setCurrentPlayer] = useState(Player.White);
   const [fromSquare, setFromSquare] = useState(null);
   const [toSquare, setToSquare] = useState(null);
 
   function handleClick(row, column) {    
     if (fromSquare === null) {
-      // Check that the square has a piece in the current player's color
+      // Check that the square has a piece in the current player's color      
       if (board[row][column] && board[row][column].color === currentPlayer) {
         setFromSquare({row, column});
         setToSquare(null);      
       }      
     } else {      
-      if (row !== fromSquare.row || column !== fromSquare.column) {
+      if (row !== fromSquare.row || column !== fromSquare.column) {       
         const toSquare = {row, column};
-        // Check if it is a legal move
-        if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {
-          setBoard(chess.board());
+        
+        // Check if it is a legal move        
+        if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {          
+          setBoard(chess.board());               
           setToSquare(toSquare);
           switchPlayers();
           setFromSquare(null);
         } else {
+          console.log('not legal move');
           if (board[row][column] && board[row][column].color === currentPlayer) {
             setFromSquare({row, column});
           }
@@ -47,6 +48,7 @@ function Board() {
   }
 
   function switchPlayers() {
+    console.log(currentPlayer);
     if (currentPlayer === Player.White) {
       setCurrentPlayer(Player.Black);
     } else {
