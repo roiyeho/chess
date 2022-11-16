@@ -1,19 +1,37 @@
-import { Chess } from 'chess.js';
 import { useState } from 'react';
 import Square from './Square';
 import './Board.css';
 import Player from '../model/players';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const BOARD_SIZE = 8
 
-function Board({currentPlayer, setCurrentPlayer}) {
-  /** @type {Chess} */ 
-  const [chess] = useState(new Chess());
+function Board({chess, currentPlayer, setCurrentPlayer, isGameOver, handleGameOver}) {
   const [board, setBoard] = useState(chess.board());
   const [fromSquare, setFromSquare] = useState(null);
   const [toSquare, setToSquare] = useState(null);
 
-  function handleClick(row, column) {    
+  function movePiece(fromSquare, toSquare) {    
+    // Check if it is a legal move    
+    if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {
+      // Update the board state
+      setBoard(chess.board());
+
+      // Check if game is over
+      if (chess.isGameOver()) {
+        handleGameOver();
+      } else {
+        switchPlayers();
+      }
+    }
+  }
+  
+  function handleSquareClick(row, column) { 
+    if (isGameOver) {
+      return;
+    }
+    
     if (fromSquare === null) {
       // Check that the square has a piece in the current player's color      
       if (board[row][column] && board[row][column].color === currentPlayer) {
@@ -22,16 +40,20 @@ function Board({currentPlayer, setCurrentPlayer}) {
       }      
     } else {      
       if (row !== fromSquare.row || column !== fromSquare.column) {       
-        const toSquare = {row, column};
+        const toSquare = {row, column};        
         
         // Check if it is a legal move        
         if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {          
           setBoard(chess.board());               
           setToSquare(toSquare);
-          switchPlayers();
           setFromSquare(null);
-        } else {
-          console.log('not legal move');
+
+          if (chess.isGameOver()) {
+            handleGameOver();
+          } else {
+            switchPlayers();
+          }
+        } else {          
           if (board[row][column] && board[row][column].color === currentPlayer) {
             setFromSquare({row, column});
           }
@@ -47,8 +69,7 @@ function Board({currentPlayer, setCurrentPlayer}) {
     return `${columnLetter}${BOARD_SIZE - square.row}`;
   }
 
-  function switchPlayers() {
-    console.log(currentPlayer);
+  function switchPlayers() {    
     if (currentPlayer === Player.White) {
       setCurrentPlayer(Player.Black);
     } else {
@@ -56,9 +77,8 @@ function Board({currentPlayer, setCurrentPlayer}) {
     }
   }
   
-  const rows = [];
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    const squares = [];
+  const squares = [];
+  for (let i = 0; i < BOARD_SIZE; i++) {    
     for (let j = 0; j < BOARD_SIZE; j++) {
       const square = (
         <Square
@@ -69,22 +89,19 @@ function Board({currentPlayer, setCurrentPlayer}) {
           color={board[i][j] ? board[i][j].color : null}
           highlight={(fromSquare && i === fromSquare.row && j === fromSquare.column) ||
             (toSquare && i === toSquare.row && j === toSquare.column)}          
-          onClick={() => handleClick(i, j)}
+          onClick={() => handleSquareClick(i, j)}
+          movePiece={movePiece}
         />
       )
       squares.push(square);
-    }
-    const row = (
-      <div className='board-row' key={`row-${i}`}>
-        {squares}
-      </div>
-    );
-    rows.push(row);
+    }    
   }
   return (
-    <div>
-      {rows}
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div className="Board">
+        {squares}
+      </div>
+    </DndProvider>    
   );
 }
 

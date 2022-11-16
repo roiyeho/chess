@@ -38,7 +38,7 @@ function Home({timeControl, setTimeControl}) {
       
       <div className="wrapper">      
         <div className="time-control">          
-            {timeControlCards}
+          {timeControlCards}
         </div>
         <div className="player-type">
           <Link to='/game'>

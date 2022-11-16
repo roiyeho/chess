@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 function App() {
   const { username, setUsername } = useUsername();
-  const [timeControl, setTimeControl] = useState(0);
+  const [timeControl, setTimeControl] = useState(5);
 
   if (!username) {
     return (

@@ -1,18 +1,33 @@
 import Player from '../model/players';
+import TimeControls from '../model/timecontrols';
 import './GameControls.css';
 import Timer from "./Timer";
 
-function GameControls({ timeControl, currentPlayer }) {
+function GameControls({timeControl, currentPlayer, isGameOver, lostOnTime}) {
+  const gameDuration = TimeControls[timeControl][0];
+
   return (
     <div className="GameControls">
-      <Timer timeControl={timeControl} active={currentPlayer === Player.Black} />
+      {gameDuration !== 0 && 
+      <Timer 
+        timeControl={timeControl}
+        active={currentPlayer === Player.Black && !isGameOver}
+        isGameOver={isGameOver}
+        lostOnTime={lostOnTime}
+      />}
       <div>
         User1
       </div>
       <div>
         User2
       </div>
-      <Timer timeControl={timeControl} active={currentPlayer === Player.White} />
+      {gameDuration !== 0 && 
+      <Timer 
+        timeControl={timeControl}         
+        active={currentPlayer === Player.White && !isGameOver}
+        isGameOver={isGameOver}
+        lostOnTime={lostOnTime}
+      />}
     </div>
   );
 }

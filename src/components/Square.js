@@ -1,9 +1,21 @@
 import Piece from './Piece';
 import './Square.css';
+import { useDrop } from 'react-dnd';
 
-function Square({row, column, pieceType, color, highlight, onClick}) {  
+function Square({row, column, pieceType, color, highlight, onClick, movePiece}) {  
+  const [, drop] = useDrop(
+    () => ({
+      accept: 'piece',
+      drop: (fromSquare) => {        
+        movePiece(fromSquare, {row, column});
+      }
+    }),
+    [row, column]
+  );
+
   return (
     <div 
+      ref={drop}
       className={`square ${(row + column) % 2 === 0 ? 'even' : 'odd'} `+ 
         `${highlight ? 'highlight' : ''}`}     
       onClick={onClick}>
