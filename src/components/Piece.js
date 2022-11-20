@@ -37,7 +37,7 @@
 import { useDrag } from "react-dnd";
 
 function Piece({pieceType, color, row, column}) {  
-  const imagePath = `images/${color}${pieceType.toUpperCase()}.png`;
+  const imagePath = `/images/${color}${pieceType.toUpperCase()}.png`;
   const [{isDragging}, drag] = useDrag(() => ({
     type: 'piece',
     item: { row, column },

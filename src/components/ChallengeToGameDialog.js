@@ -1,8 +1,8 @@
-import './ChallengeToGame.css';
+import './ChallengeToGameDialog.css';
 
-function ChallengeToGame() {
+function ChallengeToGameDialog() {
   return (
-    <div className="ChallengeToGame">      
+    <div className="ChallengeToGameDialog">      
       <h1>Challenge to a game</h1>      
       <div>
         <p>To invite someone to play, give this URL:</p>
@@ -14,4 +14,4 @@ function ChallengeToGame() {
   )
 }
 
-export default ChallengeToGame;
+export default ChallengeToGameDialog;

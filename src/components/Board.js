@@ -1,30 +1,33 @@
 import { useState } from 'react';
 import Square from './Square';
 import './Board.css';
-import Player from '../model/players';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const BOARD_SIZE = 8
 
-function Board({chess, currentPlayer, setCurrentPlayer, isGameOver, handleGameOver}) {
+function Board({chess, currentPlayer, switchPlayers, isGameOver, handleGameOver}) {
   const [board, setBoard] = useState(chess.board());
   const [fromSquare, setFromSquare] = useState(null);
   const [toSquare, setToSquare] = useState(null);
 
-  function movePiece(fromSquare, toSquare) {    
+  function movePiece(source, destination, useAnimation=false) {    
     // Check if it is a legal move    
-    if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {
+    if (chess.move({from: squareToSAN(source), to: squareToSAN(destination)})) {
       // Update the board state
       setBoard(chess.board());
+      setFromSquare(null);
+      setToSquare(destination);  
 
-      // Check if game is over
+      // If the game is not over, then switch players
       if (chess.isGameOver()) {
         handleGameOver();
-      } else {
-        switchPlayers();
-      }
+      } else {        
+        switchPlayers();        
+      }        
+      return true;
     }
+    return false;
   }
   
   function handleSquareClick(row, column) { 
@@ -34,31 +37,24 @@ function Board({chess, currentPlayer, setCurrentPlayer, isGameOver, handleGameOv
     
     if (fromSquare === null) {
       // Check that the square has a piece in the current player's color      
-      if (board[row][column] && board[row][column].color === currentPlayer) {
+      if (board[row][column] && board[row][column].color === currentPlayer.color) {
         setFromSquare({row, column});
         setToSquare(null);      
       }      
     } else {      
+      // Check if the same square was clicked twice
       if (row !== fromSquare.row || column !== fromSquare.column) {       
-        const toSquare = {row, column};        
-        
-        // Check if it is a legal move        
-        if (chess.move({from: squareToSAN(fromSquare), to: squareToSAN(toSquare)})) {          
-          setBoard(chess.board());               
-          setToSquare(toSquare);
-          setFromSquare(null);
+        // Move the piece to the destination
+        const destination = {row, column}; 
 
-          if (chess.isGameOver()) {
-            handleGameOver();
-          } else {
-            switchPlayers();
-          }
-        } else {          
-          if (board[row][column] && board[row][column].color === currentPlayer) {
+        if (!movePiece(fromSquare, destination, true)) {
+          // If the move was not legal, check if we can choose the destination as a new source square
+          if (board[row][column] && board[row][column].color === currentPlayer.color) {
             setFromSquare({row, column});
           }
-        }
+        }           
       } else {
+        // Cancel the choice of the first square
         setFromSquare(null);
       }                 
     }  
@@ -68,15 +64,7 @@ function Board({chess, currentPlayer, setCurrentPlayer, isGameOver, handleGameOv
     const columnLetter = String.fromCharCode('a'.charCodeAt(0) + square.column);
     return `${columnLetter}${BOARD_SIZE - square.row}`;
   }
-
-  function switchPlayers() {    
-    if (currentPlayer === Player.White) {
-      setCurrentPlayer(Player.Black);
-    } else {
-      setCurrentPlayer(Player.White);
-    }
-  }
-  
+   
   const squares = [];
   for (let i = 0; i < BOARD_SIZE; i++) {    
     for (let j = 0; j < BOARD_SIZE; j++) {
@@ -91,6 +79,7 @@ function Board({chess, currentPlayer, setCurrentPlayer, isGameOver, handleGameOv
             (toSquare && i === toSquare.row && j === toSquare.column)}          
           onClick={() => handleSquareClick(i, j)}
           movePiece={movePiece}
+          currentPlayer={currentPlayer}
         />
       )
       squares.push(square);

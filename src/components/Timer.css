@@ -1,10 +1,12 @@
 .Timer {
   font-family: 'Roboto', Sans-Serif;
-  font-size: 50px;
+  font-size: 40px;
   letter-spacing: 0.1em;
   background-color: white;
   padding: 0 10px;
   color: #4d4d4d;
+  width: 140px;
+  border: 1px solid #ccc;
 }
 
 .Timer > .sep {

@@ -1,6 +1,9 @@
-const Player = {
+export const PlayerColor = {
   White: 'w',
   Black: 'b'
 }
 
-export default Player;
+export const PlayerType = {
+  Human: 0,
+  Computer: 1
+}

@@ -1,5 +1,5 @@
 import './Timer.css';
-import TimeControls from "../model/timecontrols";
+import { TimeControls } from "../model/time-controls";
 import { useEffect, useState } from 'react';
 
 function Timer({timeControl, active, isGameOver, lostOnTime}) {  

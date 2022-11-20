@@ -4,11 +4,11 @@ export function useUsername() {
   const [username, setUsername] = useState(getUsername);
 
   function getUsername() {
-    return sessionStorage.getItem('username');
+    return localStorage.getItem('username');
   }
   
   function saveUsername(username) {
-    sessionStorage.setItem('username', username);
+    localStorage.setItem('username', username);
     setUsername(username);
   }
 

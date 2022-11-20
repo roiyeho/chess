@@ -1,12 +1,12 @@
-.ChallengeToGame {
+.ChallengeToGameDialog {
   max-width: 500px;
 }
 
-.ChallengeToGame > h1 {
+.ChallengeToGameDialog > h1 {
   margin-bottom: 40px;
 }
 
-.ChallengeToGame > div {
+.ChallengeToGameDialog > div {
   background-color: #eee;
   padding: 20px;
   border-radius: 5px;

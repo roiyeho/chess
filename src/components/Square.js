@@ -2,15 +2,15 @@ import Piece from './Piece';
 import './Square.css';
 import { useDrop } from 'react-dnd';
 
-function Square({row, column, pieceType, color, highlight, onClick, movePiece}) {  
+function Square({row, column, pieceType, color, highlight, onClick, movePiece, currentPlayer}) {  
   const [, drop] = useDrop(
     () => ({
       accept: 'piece',
       drop: (fromSquare) => {        
-        movePiece(fromSquare, {row, column});
+        movePiece(fromSquare, {row, column});        
       }
     }),
-    [row, column]
+    [row, column, currentPlayer]
   );
 
   return (
